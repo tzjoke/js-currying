@@ -5,9 +5,10 @@
 :: func(obj, arg1, arg2)
 
 // a common implement of uncurrying
-var uncurrying= function (fn) {
+var uncurrying= function () {
+    var _this = this;
     return function () {
-        return fn.apply(arguments[0],[].slice.call(arguments,1));
+        return _this.apply(arguments[0],[].slice.call(arguments,1));
     }
 };
 
@@ -21,7 +22,17 @@ var uncurrying= function () {
 
 // also uncurrying
 var uncurrying=Function.prototype.bind.bind(Function.prototype.call);
-
+// equals to
+var uncurrying= function(){
+    return Function.prototype.bind.apply(Function.prototype.call)
+}
+//equals to
+var uncurrying = function(){
+    var _this = this;
+    return function(){
+        _this.call(arguments)
+    }
+}
 
 // borrow built-ins
 var toUpperCase = uncurrying(String.prototype.toUpperCase);
